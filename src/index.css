@@ -1,0 +1,23 @@
+@import "~antd/dist/antd.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: max-content;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  background-color: #e9eaec;
+  overflow: hidden;
+}
+
+.centered {
+  margin: 3rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
