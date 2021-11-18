@@ -35,6 +35,14 @@ const columns = [
     dataIndex: "marker_poduct_status",
     key: "marker_poduct_status",
     width: 80,
+    render(text, record) {
+      return {
+        props: {
+          style:{color: text === "Inactive" ? "red" : "green" }  
+        },
+        children: <div>{text}</div>,
+      };
+    },
   },
 ];
 const TableView = ({ recordList }) => {
