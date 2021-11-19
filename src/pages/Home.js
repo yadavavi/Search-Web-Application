@@ -5,14 +5,15 @@ import ProductTypeCard from "../components/ProductTypeCard/ProductTypeCard";
 
 const { Title } = Typography;
 
-const Home = (props) => {
+const Home = ({check, setCheck, onFilterHandler, entryAttr}) => {
   return (
     <div>
       <Title level={3}>Browse by Product Type</Title>
       <ProductTypeCard
-        check={props.check}
-        setCheck={props.setCheck}
-        onFilterHandler={props.onFilterHandler}
+        check={check}
+        setCheck={setCheck}
+        onFilterHandler={onFilterHandler}
+        entryAttr={entryAttr}
       />
     </div>
   );

@@ -7,9 +7,10 @@ import classes from "./Header.module.css";
 
 const { Search } = Input;
 
-const Header = (props) => {
+const Header = ({onSearchHandle, reset}) => {
+ 
   const onSearch = (value) => {
-    props.onsearchHandle(value);
+    onSearchHandle(value);
   };
 
   return (
@@ -20,13 +21,14 @@ const Header = (props) => {
           <img
             className={classes["main-image"]}
             src={logo}
+            onClick={reset}
             alt="Company logo"
           />{" "}
         </NavLink>
         <Search
           placeholder="input search text"
-          allowClear
           onSearch={onSearch}
+          allowClear
           style={{ width: 300 }}
         />
       </header>

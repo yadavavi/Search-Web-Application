@@ -1,15 +1,17 @@
 import TableView from "../components/SearchResult/Sections/TableView";
 import CheckBox from "../components/SearchResult/Sections/CheckBox.js";
 
-const SearchResult = (props) => {
+
+const SearchResult = ({onFilterHandler, check, setCheck,recordList, entryAttr}) => {
   return (
     <div>
       <CheckBox
-        onFilterHandler={props.onFilterHandler}
-        check={props.check}
-        setCheck={props.setCheck}
+        onFilterHandler={onFilterHandler}
+        check={check}
+        setCheck={setCheck}
+        entryAttr={entryAttr}
       />
-      <TableView recordList={props.recordList} />
+      <TableView recordList={recordList} />
     </div>
   );
 };

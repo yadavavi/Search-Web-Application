@@ -1,16 +1,16 @@
 import React from "react";
 import { Card, Col, Row, Typography } from "antd";
 
-import { entryAttr } from "../../assets/filter";
 import { Link } from "react-router-dom";
 
 const { Title } = Typography;
 
-const ProductTypeCard = ({ check, setCheck, onFilterHandler }) => {
+const ProductTypeCard = ({ check, setCheck, onFilterHandler, entryAttr }) => {
   const clickHandler = (value) => {
     const newChecked = { ...check };
     let val = value;
     newChecked["productType"] = [val];
+    newChecked["status"] = [];
     setCheck(newChecked);
     onFilterHandler(newChecked);
   };

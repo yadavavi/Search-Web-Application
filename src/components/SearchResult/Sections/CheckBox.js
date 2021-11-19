@@ -1,11 +1,9 @@
 import React, { Fragment } from "react";
 import { Card, Checkbox, Typography } from "antd";
 
-import { entryAttr } from "../../../assets/filter";
-
 const { Title } = Typography;
 
-const CheckBox = ({ onFilterHandler, check, setCheck }) => {
+const CheckBox = ({ onFilterHandler, check, setCheck, entryAttr }) => {
   const handleToggle = (value, key) => {
     const currentIndex = check[key].indexOf(value);
     const newChecked = { ...check };

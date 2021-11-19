@@ -2,11 +2,11 @@ import { Fragment } from "react";
 import classes from "./MainLayout.module.css";
 import Header from "./Header";
 
-const MainLayout = (props) => {
+const MainLayout = ({onSearchHandler,children, reset}) => {
   return (
     <Fragment>
-      <Header onsearchHandle={props.onSearchHandler} />
-      <main className={classes.main}>{props.children}</main>
+      <Header onSearchHandle={onSearchHandler} reset={reset} />
+      <main className={classes.main}>{children}</main>
     </Fragment>
   );
 };

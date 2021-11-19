@@ -2,6 +2,8 @@
 import { Switch, Route, useHistory } from "react-router-dom";
 import axios from "axios";
 
+import { entryAttr } from "./assets/filter";
+
 import { useEffect, useState } from "react";
 
 import Home from "./pages/Home";
@@ -13,10 +15,10 @@ import MainLayout from "./components/Layout/MainLayout.js";
 function App() {
   const [recordListDefault, setRecordListDefault] = useState([]);
   const [recordList, setRecordList] = useState([]);
-  const [SearchTerms, setSearchTerms] = useState("");
+  const [searchTerms, setSearchTerms] = useState("");
   const [productArr, setProductArr] = useState([]);
   const [statusArr, setStatusArr] = useState([]);
-  const [Checked, setChecked] = useState({
+  const [checked, setChecked] = useState({
     status: [],
     productType: [],
   });
@@ -35,9 +37,18 @@ function App() {
   }, []);
   useEffect(() => {}, [recordList]);
 
+  const reset = () => {
+    const newChecked = { ...checked };
+    newChecked["productType"] = [];
+    newChecked["status"] = [];
+    setChecked(newChecked);
+    setSearchTerms("");
+    onFilterHandler(newChecked);
+  };
+
   useEffect(() => {
     getProduct();
-  }, [SearchTerms]);
+  }, [searchTerms]);
   useEffect(() => {
     getProduct();
   }, [productArr]);
@@ -51,7 +62,7 @@ function App() {
     records = recordListDefault.filter((rec) => {
       return rec.material_name
         .toLowerCase()
-        .includes(SearchTerms.toLowerCase());
+        .includes(searchTerms.toLowerCase());
     });
 
     if (productArr.length !== 0) {
@@ -83,19 +94,21 @@ function App() {
   };
 
   return (
-    <MainLayout onSearchHandler={onSearchHandler}>
+    <MainLayout onSearchHandler={onSearchHandler} reset={reset}>
       <Switch>
         <Route path="/" exact>
           <Home
-            check={Checked}
+            entryAttr={entryAttr}
+            check={checked}
             setCheck={setChecked}
             onFilterHandler={onFilterHandler}
           />
         </Route>
         <Route path="/result">
           <SearchResult
+            entryAttr={entryAttr}
             recordList={recordList}
-            check={Checked}
+            check={checked}
             setCheck={setChecked}
             onFilterHandler={onFilterHandler}
           />
