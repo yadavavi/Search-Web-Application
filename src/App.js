@@ -1,23 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import axios from "axios";
 
 import { entryAttr } from "./assets/filter";
 
-import { useEffect, useState } from "react";
-
 import Home from "./pages/Home";
 import SearchResult from "./pages/SearchResult";
 import NotFound from "./pages/NotFound";
-
 import MainLayout from "./components/Layout/MainLayout.js";
 
 function App() {
-  const [recordListDefault, setRecordListDefault] = useState([]);
-  const [recordList, setRecordList] = useState([]);
+  const [productsList, setProductsList] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
   const [searchTerms, setSearchTerms] = useState("");
-  const [productArr, setProductArr] = useState([]);
-  const [statusArr, setStatusArr] = useState([]);
+  const [params, setParams] = useState({
+    search: "",
+    status: [],
+    productType: [],
+  });
   const [checked, setChecked] = useState({
     status: [],
     productType: [],
@@ -25,89 +25,86 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
-    axios
-      .get("./mockData.json")
-      .then((res) => {
-        setRecordListDefault(res.data);
-        setRecordList(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    let search = params["search"].toLowerCase().replace(/ /g, "");
+    let product = params["productType"].toString().toLowerCase().replace(/ /g, "");
+    let status = params["status"].toString().toLowerCase().replace(/ /g, "");
+    const param = new URLSearchParams({
+      ...(search && { search: search }),
+      ...(product && { productType: product }),
+      ...(status && { status: status }),
+    });
+    if (param.toString()) {
+      let path = `/result?${param}`;
+      history.push(path);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
+  const getProducts = (variables) => {
+   axios
+      .post("localhost:9898/product/getProducts", variables)
+      .then((response) => {
+        if (response.data.success) {
+          setProductsList(response.data.products);
+        } else {
+          alert("Failed to fectch product datas");
+        }
       });
-  }, []);
-  useEffect(() => {}, [recordList]);
+  };
 
   const reset = () => {
     const newChecked = { ...checked };
     newChecked["productType"] = [];
     newChecked["status"] = [];
     setChecked(newChecked);
+    setSearchInput("");
     setSearchTerms("");
-    onFilterHandler(newChecked);
-  };
-
-  useEffect(() => {
-    getProduct();
-  }, [searchTerms]);
-  useEffect(() => {
-    getProduct();
-  }, [productArr]);
-  useEffect(() => {
-    getProduct();
-  }, [statusArr]);
-
-  const getProduct = () => {
-    let records, recordsNew;
-
-    records = recordListDefault.filter((rec) => {
-      return rec.material_name
-        .toLowerCase()
-        .includes(searchTerms.toLowerCase());
-    });
-
-    if (productArr.length !== 0) {
-      recordsNew = records.filter(
-        (p) => productArr.indexOf(p.product_type) !== -1
-      );
-      records = recordsNew;
-    }
-    if (statusArr.length !== 0) {
-      recordsNew = records.filter(
-        (p) => statusArr.indexOf(p.marker_poduct_status) !== -1
-      );
-      records = recordsNew;
-    }
-
-    setRecordList(records);
+    setParams({ search: "", status: [], productType: [] });
+    setProductsList([]);
   };
 
   const onSearchHandler = (input) => {
+    const variables = {
+      filters: checked,
+      searchTerm: input,
+    };
+    setParams({ ...params, search: input });
     setSearchTerms(input);
-    let path = `result`;
-    history.push(path);
+    getProducts(variables);
   };
 
   const onFilterHandler = (input) => {
-    setProductArr(input.productType);
-    setStatusArr(input.status);
-    getProduct();
+    const variables = {
+      filters: input,
+      searchTerm: searchTerms,
+    };
+    getProducts(variables);
   };
 
   return (
-    <MainLayout onSearchHandler={onSearchHandler} reset={reset}>
+    <MainLayout
+      searchInput={searchInput}
+      setSearchInput={setSearchInput}
+      onSearchHandler={onSearchHandler}
+      reset={reset}
+    >
       <Switch>
         <Route path="/" exact>
           <Home
             entryAttr={entryAttr}
             check={checked}
             setCheck={setChecked}
+            params={params}
+            setParams={setParams}
             onFilterHandler={onFilterHandler}
           />
         </Route>
         <Route path="/result">
           <SearchResult
+            params={params}
+            setParams={setParams}
             entryAttr={entryAttr}
-            recordList={recordList}
+            recordList={productsList}
             check={checked}
             setCheck={setChecked}
             onFilterHandler={onFilterHandler}

@@ -1,16 +1,18 @@
 import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 import logo from "../../assets/logo.png";
 import classes from "./Header.module.css";
 
-const { Search } = Input;
+const Header = ({ onSearchHandle, reset, searchInput, setSearchInput }) => {
+  const onchangeHandler = (e) => {
+    setSearchInput(e.target.value);
+  };
 
-const Header = ({onSearchHandle, reset}) => {
- 
-  const onSearch = (value) => {
-    onSearchHandle(value);
+  const onSearch = () => {
+    onSearchHandle(searchInput);
   };
 
   return (
@@ -25,12 +27,16 @@ const Header = ({onSearchHandle, reset}) => {
             alt="Company logo"
           />{" "}
         </NavLink>
-        <Search
+        <Input
           placeholder="input search text"
-          onSearch={onSearch}
+          onChange={onchangeHandler}
+          value={searchInput}
           allowClear
           style={{ width: 300 }}
         />
+        <span className={classes.search} onClick={onSearch}>
+          <SearchOutlined className={classes.searchIcon} />
+        </span>
       </header>
     </Fragment>
   );

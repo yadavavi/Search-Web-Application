@@ -21,7 +21,7 @@ describe("Search", () => {
       </BrowserRouter>
     );
 
-    const button = container.querySelector(".ant-input-search-button");
+    const button = container.querySelector(".anticon");
 
     expect(button).toBeInTheDocument();
   });

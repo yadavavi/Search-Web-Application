@@ -26,3 +26,18 @@
   object-fit: cover;
   transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
 }
+
+.search{
+  position: relative;
+  width: 28px;
+  height: 30px;
+  background-color: white;
+}
+
+.searchIcon{
+    font-Size: 16px;
+    position: absolute;
+    color: rgb(139, 133, 133);
+    top: 7px;
+    left: 7px;
+  }

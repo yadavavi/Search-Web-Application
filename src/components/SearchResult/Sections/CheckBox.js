@@ -3,18 +3,24 @@ import { Card, Checkbox, Typography } from "antd";
 
 const { Title } = Typography;
 
-const CheckBox = ({ onFilterHandler, check, setCheck, entryAttr }) => {
-  const handleToggle = (value, key) => {
+const CheckBox = ({ onFilterHandler, check, setCheck, entryAttr, params, setParams }) => {
+  const handleToggle = (value,key) => {
     const currentIndex = check[key].indexOf(value);
+    
     const newChecked = { ...check };
+    const newParams = { ...params };
 
     if (currentIndex === -1) {
       newChecked[key] = [...newChecked[key], value];
     } else {
       newChecked[key].splice(currentIndex, 1);
     }
-
+    
+  let filterName =   entryAttr[key].filter(g => newChecked[key].includes(g._id)).map(g => g.name)
+  newParams[key] = filterName;
+  setParams(newParams);
     setCheck(newChecked);
+
     onFilterHandler(newChecked);
   };
 
@@ -23,28 +29,30 @@ const CheckBox = ({ onFilterHandler, check, setCheck, entryAttr }) => {
     entryAttr.productType.map((value, index) => (
       <Fragment key={index}>
         <Checkbox
-          onChange={() => handleToggle(value, "productType")}
+          onChange={() => handleToggle(value._id, "productType")}
           type="checkbox"
-          checked={check["productType"].indexOf(value) === -1 ? false : true}
+          checked={
+            check["productType"].indexOf(value._id) === -1 ? false : true
+          }
         />
         &nbsp;&nbsp;
-        <span>{value}</span>
+        <span>{value.name}</span>
         <br />
       </Fragment>
     ));
 
   const renderStatusCheckboxLists = () =>
-    entryAttr.productStatus &&
-    entryAttr.productStatus.map((value, index) => (
+    entryAttr.status &&
+    entryAttr.status.map((value, index) => (
       <Fragment key={index}>
         <Checkbox
           name="status"
-          onChange={() => handleToggle(value, "status")}
+          onChange={() => handleToggle(value._id, "status")}
           type="checkbox"
-          checked={check["status"].indexOf(value) === -1 ? false : true}
+          checked={check["status"].indexOf(value._id) === -1 ? false : true}
         />
         &nbsp;&nbsp;
-        <span>{value}</span>
+        <span>{value.name}</span>
         <br />
       </Fragment>
     ));
