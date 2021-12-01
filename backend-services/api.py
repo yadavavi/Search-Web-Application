@@ -2,18 +2,26 @@ from flask import Flask
 from flask import request, jsonify
 from flaskext.mysql import MySQL
 from flask_cors import CORS,cross_origin
+import configparser
 
 app = Flask(__name__)
 CORS(app)
 
 # make mysql connection
-# TO-DO : read from .env file
 mysql = MySQL()
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'li0n12#'
-app.config['MYSQL_DATABASE_DB'] = 'web_search'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
+# fetch credentials from .env file
+try:
+	config = configparser.ConfigParser()
+	config.read('.env')
+	db_cred = config['Database']
+	app.config['MYSQL_DATABASE_USER'] = db_cred.get('MYSQL_DATABASE_USER')
+	app.config['MYSQL_DATABASE_PASSWORD'] = db_cred.get('MYSQL_DATABASE_PASSWORD')
+	app.config['MYSQL_DATABASE_DB'] = db_cred.get('MYSQL_DATABASE_DB')
+	app.config['MYSQL_DATABASE_HOST'] = db_cred.get('MYSQL_DATABASE_HOST')
+	mysql.init_app(app)
+except Exception as e:
+	print("Unable to read environment variables, Error: "+str(e))
+
 
 # global variables
 all_product_types = [1,2,3,4,5]
