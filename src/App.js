@@ -42,7 +42,7 @@ function App() {
 
   const getProducts = (variables) => {
    axios
-      .post("localhost:9898/product/getProducts", variables)
+      .post("http://localhost:9898/product/getProducts", variables)
       .then((response) => {
         if (response.data.success) {
           setProductsList(response.data.products);
