@@ -33,7 +33,7 @@ In the project directory, navigate to backend-services
 
 ### `python api.py`
 
-The api server runs on the [http://localhost:3000](http://localhost:9898)
+The api server runs on the [http://localhost:9898](http://localhost:9898)
 
 
 
