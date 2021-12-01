@@ -19,5 +19,15 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+## Running Backend Service
+
+In the project directory, navigate to backend-services
+
+### `pip install -r requirements.txt`
+
+### `python api.py`
+
+The api server runs on the [http://localhost:3000](http://localhost:9898)
+
 
 
