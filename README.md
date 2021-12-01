@@ -23,6 +23,8 @@ You will also see any lint errors in the console.
 
 System requirements - Python3, MySQL
 
+Import the dummy database file db.sql
+
 In the project directory, navigate to backend-services
 
 (It's preferred to use virtual environment to avoid the clashing dependencies)
