@@ -21,7 +21,11 @@ You will also see any lint errors in the console.
 
 ## Running Backend Service
 
+System requirements - Python3, MySQL
+
 In the project directory, navigate to backend-services
+
+(It's preferred to use virtual environment to avoid the clashing dependencies)
 
 ### `pip install -r requirements.txt`
 
