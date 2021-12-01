@@ -35,5 +35,8 @@ In the project directory, navigate to backend-services
 
 The api server runs on the [http://localhost:9898](http://localhost:9898)
 
+Run Test cases - 
+
+### python test_api.py
 
 
