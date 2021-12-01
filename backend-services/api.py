@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from flaskext.mysql import MySQL
 from flask_cors import CORS,cross_origin
 import configparser
@@ -43,6 +43,10 @@ def format_data(data):
 			print(e)
 	return res
 
+@app.route('/', methods=['GET'])
+# @cross_origin(origin='*')
+def index():
+	return "Server running!"
 
 @app.route('/product/getProducts', methods=['POST'])
 # @cross_origin(origin='*')
@@ -91,7 +95,7 @@ def fetch():
 		response = {"success":True,"products":result}
 	except Exception as e:
 		response = {"success":False,"msg":str(e)}
-	return jsonify(response)
+	return make_response(jsonify(response),201)
 
 
 if __name__ == '__main__':
